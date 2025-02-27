@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="
+    width: 80vw;
+    max-width: 900px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+">
+    <h1 class="title has-text-white">🚀 Achieve Your Goals!</h1>
+    <p class="subtitle has-text-light">"The secret of getting ahead is getting started!" – Mark Twain</p>
+
+    <div class="box" style="
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+    ">
+        <h2 class="subtitle has-text-info">✨ Add a New Todo</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label">🌟 Title</label>
+                <div class="control">{{ form.title }}</div>
+            </div>
+
+            <div class="field">
+                <label class="label">📝 Description</label>
+                <div class="control">{{ form.description }}</div>
+            </div>
+
+            <div class="field">
+                <label class="checkbox">{{ form.is_done }} ✅ Mark as Done</label>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-success is-rounded">🚀 Add Task</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr style="border-color: #fff; margin: 2rem 0; width: 100%;">
+
+    <div class="box" style="
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+    ">
+        <h2 class="subtitle has-text-black">📜 Your Todo List</h2>
+
+        {% if todos %}
+        {% for todo in todos %}
+        <div class="box" style="background-color: #fffae6;">
+            <p>
+                <strong>{{ todo.title }}</strong>
+                <span class="tag is-info is-light">
+                    {% if todo.is_done %}✅ Completed{% else %}⏳ In Progress{% endif %}
+                </span>
+            </p>
+            <p>{{ todo.description }}</p>
+            <a class="button is-link is-small is-rounded" href="{% url 'todo' todo.id %}">📄 View Details</a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="has-text-grey">🚫 No todos yet! Start now and make progress! 💪</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
